@@ -1,2 +1,47 @@
 @import 'variables';
- 
+ * {
+     margin: 0;
+     padding: 0;
+     color: white;
+     box-sizing: border-box;
+     font-size: 29px;
+     font-family: 'Source Sans Pro', 'Arial', sans-serif;
+ }
+.container {
+    width: 100vw;
+    min-height: 100vh;
+    background-image: url('../images/inflicted.png');
+    background-repeat: repeat;
+    overflow-x: hidden;
+    overflow-y: visible;
+    // display: flex;
+    // justify-content: space-around;
+    // align-items: center;
+    position: relative;
+}
+.draggable {
+    background: rgba(255,255,255,0.8);
+    width: 280px;
+    min-height: 300px;
+    box-shadow: 0 0 10px 0 #000000;
+    position: absolute;
+}
+#box1 {
+    top: 100px;
+    left: 100px;
+}
+#box2 {
+    top: 100px;
+    left: 450px;
+}
+#box3 {
+    top: 100px;
+    left: 800px;
+}
+h2 {
+    padding: 20px;
+    color: #333333;
+    font-size: 1rem;
+    line-height: 1.1rem;
+    font-weight: lighter;
+}
