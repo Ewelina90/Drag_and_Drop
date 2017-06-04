@@ -5,6 +5,22 @@ document.addEventListener('DOMContentLoaded',function(){
     var dragObject = null;
     var mouseOffset = null;
 
+    function biggestZIndex(){
+        var boxes = [...document.querySelectorAll('.draggable')];
+        var zIndexes = boxes.map(function(el){
+            return el.style.zIndex;
+        });
+        console.log(zIndexes);
+        var biggestZIndex = zIndexes.sort(function(a,b){
+            return b-a;
+        })
+        console.log('bi'+biggestZIndex[0]);
+        return biggestZIndex[0];
+    }
+
+    var zIndex = biggestZIndex();
+    console.log('z'+zIndex);
+
     function getMouseOffset(target,ev){
         ev = ev || window.event;
         var docPos = getPosition(target);
@@ -28,7 +44,7 @@ document.addEventListener('DOMContentLoaded',function(){
     function mouseMove(ev){
         ev = ev || window.event; //normal vs IE
         var mousePosition = mouseCoords(ev);
-        console.log(mousePosition);
+        // console.log(mousePosition);
         if(dragObject){
             dragObject.style.position = 'absolute';
             dragObject.style.top = mousePosition.y - mouseOffset.y + 'px';
@@ -48,6 +64,7 @@ document.addEventListener('DOMContentLoaded',function(){
     }
 
     function mouseUp(ev){
+        dragObject.style.zIndex = biggestZIndex;
         dragObject = null;
     }
 
@@ -55,6 +72,7 @@ document.addEventListener('DOMContentLoaded',function(){
         if(!item) return;
         item.onmousedown = function(ev){
             dragObject = this;
+            dragObject.style.zIndex = zIndex++;
             mouseOffset = getMouseOffset(this,ev);
             console.log(dragObject);
             return false;
