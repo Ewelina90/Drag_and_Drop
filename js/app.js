@@ -10,16 +10,16 @@ document.addEventListener('DOMContentLoaded',function(){
         var zIndexes = boxes.map(function(el){
             return el.style.zIndex;
         });
-        console.log(zIndexes);
+        // console.log(zIndexes);
         var biggestZIndex = zIndexes.sort(function(a,b){
             return b-a;
         })
-        console.log('bi'+biggestZIndex[0]);
+        // console.log('bi'+biggestZIndex[0]);
         return biggestZIndex[0];
     }
 
     var zIndex = biggestZIndex();
-    console.log('z'+zIndex);
+    // console.log('z'+zIndex);
 
     function getMouseOffset(target,ev){
         ev = ev || window.event;
@@ -63,20 +63,43 @@ document.addEventListener('DOMContentLoaded',function(){
         };
     }
 
-    function mouseUp(ev){
-        dragObject.style.zIndex = biggestZIndex;
-        dragObject = null;
-    }
-
     function makeDraggable(item){
         if(!item) return;
         item.onmousedown = function(ev){
             dragObject = this;
             dragObject.style.zIndex = zIndex++;
             mouseOffset = getMouseOffset(this,ev);
-            console.log(dragObject);
+            // console.log(dragObject);
             return false;
         }
+    }
+
+    var dropTargets = [];
+    function addDropTarget(dropTarget){
+        dropTargets.push(dropTarget);
+    }
+
+    function mouseUp(ev){
+        ev = ev || window.event;
+        var mousePosition = mouseCoords(ev);
+        addDropTarget(mousePosition);
+        for(var i = 0; i<dropTargets.length; i++){
+            var currentTarget = dropTargets[i];
+            // console.log(currentTarget);
+            var targPosition = getPosition(currentTarget);
+            var targWidth = parseInt(currentTarget.offsetWidth);
+            var targHeight = parseInt(currentTarget.offsetHeight);
+            if(
+                (mousePosition.x > targPosition.x) &&
+                (mousePosition.x < (targPosition.x + targWidth)) &&
+                (mousePosition.y > targPosition.y) &&
+                (mousePosition.y < (targPosition.y + targHeight)))
+                {
+                    console.log(targPosition);
+                }
+        }
+        dragObject.style.zIndex = biggestZIndex;
+        dragObject = null;
     }
 
     var boxes = [...document.querySelectorAll('.draggable')];
